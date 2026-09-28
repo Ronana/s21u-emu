@@ -59,6 +59,52 @@ What I learned from reading UN1CA's p3s installer (`target/p3s/installer/*.edify
 
 **Problem hit:** `adb push` of the 6.3 GB zip dropped partway with `no response: Broken pipe` and the device vanished from `adb devices`. Things tried: disabling MTP in TWRP, turning off TWRP's screen timeout, reconnecting on a direct PC port, `adb kill-server`, and deleting the partial file before retrying. A likely cause to check next time: if `/data` isn't mounted after a format, `/sdcard` lives in RAM and a large push fills it. `adb sideload` avoids needing storage at all.
 
-## Next
+## Step 6: Post-install checks
 
-Root (Magisk / KernelSU) → VoidKernel → verify (`uname -r`, OEM unlock still on).
+The UN1CA build shows in *About phone*; Wi-Fi, mobile data, calls, camera, Bluetooth audio and fingerprint all work. RAM confirmed as **12 GB**.
+
+## Step 7: Choosing a kernel: VoidKernel → Floppy2100
+
+The original plan was **VoidKernel**. Checking its [GitHub releases](https://github.com/any444v/android_kernel_samsung_universal2100/releases) showed the last release and commit were in **June 2025**, and it was only tested on One UI 7.
+
+Switched to **[Floppy2100](https://github.com/FlopKernel-Series/flop_exynos2100_kernel)**:
+
+- Actively maintained (commits in the last week, v1.1.2 released 2026-05-30)
+- Supports Android 12–16 on One UI and AOSP; v1.1.2 fixes a UN1CA-specific bug, so it's used on this ROM
+- Ships KernelSU Next + SuSFS builds, with SHA-256 digests on every asset
+- Has official undervolting and thermal-offset guides, which matter for Phase 2's sustained-FPS goal
+
+Requirement: **RAM Plus must be disabled**.
+
+Before flashing, I read the zip's `anykernel.sh`: it supports `p3s` on Android 11–16 and writes only **`boot`** (kernel swap) and **`vendor_boot`**.
+
+## Step 8: Backup and flash (2026-09-28)
+
+1. Disabled RAM Plus.
+2. In TWRP, backed up `boot`, `vendor_boot` and `dtbo` to the PC with `adb shell dd … of=/tmp/*.img` + `adb pull`. I checked the image headers (`ANDROID!`, `VNDRBOOT`, DTBO magic) and sizes (64/64/8 MB). TWRP can't decrypt internal storage, so pulling the images to the PC was the way to back them up.
+3. TWRP → Advanced → **ADB Sideload** → `adb sideload Floppy_v1.1.2-KSUNext-SUSFS-exynos2100-20260530-1437.zip` (SHA-256 verified).
+4. Rebooted into the system successfully.
+
+## Step 9: Root and verification
+
+- Installed **KernelSU Next v3.2.0** (the manager version Floppy v1.1.2 pairs with; SHA-256 verified) via `adb install`.
+- Granted root to the Shell in the Superuser tab.
+
+```
+$ adb shell uname -r
+5.4.302-Floppy-v1.1.2-KN-release
+$ adb shell su -c id
+uid=0(root) gid=0(root) groups=0(root) context=u:r:ksu:s0
+```
+
+✅ **Phase 1 complete.**
+
+## Final state
+
+| Component | Version |
+|---|---|
+| Bootloader / modem | `G998BXXSJHZC2` / `G998BXXSJHZA6` (unlocked) |
+| Recovery | TWRP 3.7.1_12-0 (xfwdrev) |
+| ROM | UN1CA 3.2.0 (One UI 8, Android 16) |
+| Kernel | Floppy2100 v1.1.2 (Linux 5.4.302) |
+| Root | KernelSU Next v3.2.0 + SuSFS |

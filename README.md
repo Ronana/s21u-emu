@@ -18,8 +18,8 @@ The goal isn't to install some apps. It's to **measure, build from source and sh
 | Phase | What | Status |
 |---|---|---|
 | 0 | Pre-flight: bootloader compatibility check | ✅ Done ([write-up](docs/phase-0-preflight.md)) |
-| 1 | Unlock bootloader, flash [UN1CA](https://github.com/salvogiangri/UN1CA) (One UI 8), root, custom kernel | 🔄 In progress: UN1CA 3.2.0 installed ✅ ([write-up](docs/phase-1-unlock-and-flash.md)), next is root + kernel |
-| 2 | Performance tuning for *sustained* FPS, with before/after benchmarks | ⏳ |
+| 1 | Unlock bootloader, flash [UN1CA](https://github.com/salvogiangri/UN1CA) (One UI 8), [Floppy2100](https://github.com/FlopKernel-Series/flop_exynos2100_kernel) kernel + KernelSU Next root | ✅ Done ([write-up](docs/phase-1-unlock-and-flash.md)) |
+| 2 | Performance tuning for *sustained* FPS, with before/after benchmarks | 🔜 Next |
 | 3 | Android SDK/NDK toolchain; build RetroArch and Dolphin from source | ⏳ |
 | 4 | Custom Kotlin + Jetpack Compose emulation launcher (separate repo) | ⏳ |
 | 5 | (Stretch) Mali GPU driver research | ⏳ |
