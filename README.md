@@ -13,6 +13,19 @@ The goal isn't to install some apps. It's to **measure, build from source and sh
 | GPU | Mali-G78 MP14 (no Adreno/Turnip drivers) |
 | Host | Windows + WSL2 (Odin on Windows, builds in WSL2) |
 
+## Emulators installed
+
+| System | Emulator | Version | Source | Open source | Benchmarked |
+|---|---|---|---|---|---|
+| PSP | [PPSSPP](https://www.ppsspp.org) | 1.20.4 | ppsspp.org | ✅ GPL-2.0 | ✅ baseline |
+| GameCube / Wii | [Dolphin](https://dolphin-emu.org) | 2609 | dolphin-emu.org | ✅ GPL-2.0+ | 🔄 in progress |
+| PS1 | [DuckStation](https://github.com/stenzek/duckstation) | 0.1-8969 | Google Play (only official Android source) | ❌ Android app not public | ⏳ |
+| PS2 | [ARMSX2](https://github.com/ARMSX2/ARMSX2) (PCSX2 ARM64 port) | 2.7.1 nightly | GitHub releases | ✅ GPL-3.0 | ⏳ |
+| Nintendo DS | [melonDS Android](https://github.com/rafaelvcaetano/melonDS-android) | 2.0.1 | GitHub releases | ✅ GPL-3.0 | ⏳ |
+| Original Xbox | X1 BOX | 1.2.5 | third-party | ❌ closed | ✖ excluded (not reproducible) |
+
+Switch (Eden) is on hold until keys, firmware and games are dumped from my own console.
+
 ## Roadmap
 
 | Phase | What | Status |
