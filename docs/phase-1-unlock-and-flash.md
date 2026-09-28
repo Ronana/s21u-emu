@@ -97,6 +97,8 @@ $ adb shell su -c id
 uid=0(root) gid=0(root) groups=0(root) context=u:r:ksu:s0
 ```
 
+- Developer options → **OEM unlocking** is still greyed out with *"Bootloader is already unlocked"*.
+
 ✅ **Phase 1 complete.**
 
 ## Final state
