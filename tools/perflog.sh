@@ -76,7 +76,10 @@ echo "t_s,game_fps,display_fps,cpu_little_mhz,cpu_mid_mhz,cpu_big_mhz,gpu_mhz,gp
 echo "perflog: logging ${DURATION}s every ${INTERVAL}s -> $OUT"
 
 dumpsys SurfaceFlinger --timestats -clear -enable >/dev/null 2>&1
-trap 'dumpsys SurfaceFlinger --timestats -disable >/dev/null 2>&1' EXIT INT TERM
+# Turn timestats back off on exit. INT/TERM must also exit explicitly: a trap
+# replaces the default action, so without `exit` the logger would ignore `kill`.
+trap 'dumpsys SurfaceFlinger --timestats -disable >/dev/null 2>&1' EXIT
+trap 'exit 130' INT TERM
 
 start=$(uptime_cs)
 prev_t=$start
