@@ -1,0 +1,54 @@
+# --- Private AI working notes (remove this line to publish) ---
+CLAUDE.md
+
+# --- Firmware, ROMs, recoveries: never commit ---
+*.tar
+*.tar.md5
+*.img
+*.lz4
+*.zip
+*.pit
+*.bin
+*.sha256
+
+# --- Games, BIOS, keys: never commit ---
+*.iso
+*.rvz
+*.wbfs
+*.nsp
+*.xci
+*.chd
+*.cue
+*.3ds
+*.cia
+*.nds
+*.gba
+*.sfc
+*.smc
+*.n64
+*.z64
+prod.keys
+title.keys
+*.keys
+bios/
+roms/
+
+# --- Build outputs ---
+*.apk
+*.aab
+build/
+.gradle/
+.cxx/
+local.properties
+*.keystore
+*.jks
+
+# --- Secrets ---
+.env
+*.secret
+
+# --- OS/editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
