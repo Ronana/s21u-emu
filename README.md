@@ -29,6 +29,7 @@ The goal isn't to install some apps. It's to **measure, build from source and sh
 ```
 docs/         Phase write-ups: decisions, steps, problems hit and fixes
 benchmarks/   FPS / thermal logs and before/after tables
+tools/        perflog.sh (on-device FPS/clock/thermal logger) + summarize.py
 build-notes/  Per-emulator build instructions and toolchain versions
 ```
 
