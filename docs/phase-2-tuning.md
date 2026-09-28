@@ -21,11 +21,14 @@ Based on Dolphin's official [performance guide](https://dolphin-emu.org/docs/gui
 | 1 | **GPU Texture Decoding: on** | Moves texture decoding from the CPU to the idle GPU; the guide says it helps weaker CPUs most | Incompatible with Arbitrary Mipmap Detection |
 | 2 | **Texture Cache: Fast** | Less CPU time spent checking textures | Missing text or other graphical glitches |
 | 3 | **Shader compilation: Hybrid Ubershaders** | Targets the fire-effect stutter; the GPU has headroom to spare for ubershaders | More GPU load. The guide's Vulkan warning is about NVIDIA, not Mali |
+| 3b | **Compile Shaders Before Starting: on** (with Specialized) | Builds cached shaders at boot so explosions and fire don't hitch mid-game | Longer game boot time |
 | 4 | **Skip EFB Access from CPU: on** | Big speed-up if the game reads back the screen | Breaks games that use screen reads for game logic; watch aiming and pickups |
 | 5 | **Internal resolution 1×** (control test) | *Shouldn't* help if we really are CPU-bound; this checks our diagnosis | Lower image quality |
-| 6 | **Emulated CPU Clock Override: 80–90%** | The guide's "most powerful tool" for weak devices: the game does less work per frame | Changes the game's own timing and can break games, so test last |
+| 6 | **Emulated CPU Clock Override: 80–85%** | The guide's "most powerful tool" for weak devices: the game does less work per frame | Changes the game's own timing and can break games, so test last |
 
 **Not touched** (per the guide): CPU Emulation Engine (already the fastest option), DSP (HLE is already fastest), Ignore Format Changes (negligible gain), Disable EFB VRAM Copies / Manual Texture Sampling (slower).
+
+**TimeSplitters-specific note:** explosive action (e.g. plasma-grenade chain reactions) is the heaviest CPU load, so every run should include a few big explosions at similar points. Tests 2, 3b, 4 and 6 also match community tips for this game.
 
 Metrics per run: game FPS (avg, 1% low), first-vs-last 3 min, X1/A78/GPU clock sustain, peak temperatures, plus notes on stutter, slow motion and visual glitches.
 
