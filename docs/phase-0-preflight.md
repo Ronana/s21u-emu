@@ -34,4 +34,11 @@ Note: this is one-way. Once on binary 19, the phone can never return to Android 
 
 ## Result
 
-_OTA in progress: final build number to be recorded here._
+Official OTA completed on 2026-09-28. No Odin needed.
+
+| | Build |
+|---|---|
+| Before | `UP1A.231005.007.G998BXXSBGXDH` (Android 14, binary B = 11) |
+| After | `AP3A.240905.015.A2.G998BXXSJHZC2` (Android 15, binary **J = 19**) |
+
+✅ **Pre-flight passed.** The phone matches UN1CA's bootloader requirement exactly, so Phase 1 can begin.
