@@ -19,7 +19,7 @@ The goal isn't to install some apps. It's to **measure, build from source and sh
 |---|---|---|
 | 0 | Pre-flight: bootloader compatibility check | ✅ Done ([write-up](docs/phase-0-preflight.md)) |
 | 1 | Unlock bootloader, flash [UN1CA](https://github.com/salvogiangri/UN1CA) (One UI 8), [Floppy2100](https://github.com/FlopKernel-Series/flop_exynos2100_kernel) kernel + KernelSU Next root | ✅ Done ([write-up](docs/phase-1-unlock-and-flash.md)) |
-| 2 | Performance tuning for *sustained* FPS, with before/after benchmarks | 🔄 Baselines in progress ([log](benchmarks/log.md)) |
+| 2 | Performance tuning for *sustained* FPS, with before/after benchmarks | 🔄 Baselines in progress ([plan](docs/phase-2-tuning.md) · [log](benchmarks/log.md)) |
 | 3 | Android SDK/NDK toolchain; build RetroArch and Dolphin from source | ⏳ |
 | 4 | Custom Kotlin + Jetpack Compose emulation launcher (separate repo) | ⏳ |
 | 5 | (Stretch) Mali GPU driver research | ⏳ |
