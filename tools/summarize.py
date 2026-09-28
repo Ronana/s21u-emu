@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Summarise a perflog.sh CSV into the numbers used in benchmarks/log.md.
 
-Usage: python3 tools/summarize.py run.csv [--skip SECONDS]
+Usage: python3 tools/summarize.py run.csv [--skip SECONDS] [--until SECONDS]
 
---skip ignores the first N seconds (menus/loading) before the test scene starts.
+--skip ignores samples before N seconds (cool-down, menus, loading).
+--until ignores samples after N seconds (exiting the game, plugging back in).
 """
 import argparse
 import csv
@@ -20,11 +21,15 @@ def pct_low(values, pct):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("csv")
-    ap.add_argument("--skip", type=int, default=0, help="seconds to ignore at the start")
+    ap.add_argument("--skip", type=int, default=0, help="ignore samples before this time (s)")
+    ap.add_argument("--until", type=int, default=None, help="ignore samples after this time (s)")
     args = ap.parse_args()
 
     with open(args.csv, newline="") as f:
-        rows = [r for r in csv.DictReader(f) if int(r["t_s"]) >= args.skip]
+        rows = [
+            r for r in csv.DictReader(f)
+            if int(r["t_s"]) >= args.skip and (args.until is None or int(r["t_s"]) <= args.until)
+        ]
     if not rows:
         raise SystemExit("no samples after --skip")
 
@@ -48,8 +53,18 @@ def main():
     for name in ("temp_big_c", "temp_mid_c", "temp_gpu_c", "temp_batt_c"):
         vals = col(name)
         print(f"peak {name[5:-2]:<9} {max(vals):.1f} °C")
-    print(f"avg big mhz     {statistics.fmean(col('cpu_big_mhz')):.0f}")
-    print(f"avg gpu mhz     {statistics.fmean(col('gpu_mhz')):.0f}")
+    # Clock sustain: throttling can show up in clocks before it shows up in FPS.
+    def window_mean(name, lo, hi):
+        vals = [float(r[name]) for r in rows if r[name] and lo <= int(r["t_s"]) <= hi]
+        return statistics.fmean(vals) if vals else float("nan")
+
+    for name, label in (("cpu_big_mhz", "X1"), ("cpu_mid_mhz", "A78"), ("gpu_mhz", "GPU")):
+        a = window_mean(name, t0, t0 + window)
+        b = window_mean(name, t1 - window, t1)
+        print(f"{label:<4}mhz first/last {a:.0f} -> {b:.0f}  ({b / a * 100:.0f}%)")
+    print(f"avg gpu busy    {statistics.fmean(col('gpu_busy_pct')):.0f}%")
+    batt = col("batt_pct")
+    print(f"battery used    {batt[0] - batt[-1]:.0f}%")
 
 
 if __name__ == "__main__":

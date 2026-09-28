@@ -29,6 +29,13 @@ The logger samples SurfaceFlinger's composited-frame counter (FPS), CPU cluster 
 
 | Date | Emulator (version) | Game / scene | Settings | Tuning profile | Avg FPS | 1% low | Sustain ratio | Peak CPU °C | Peak GPU °C | Ambient °C | Cooler | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-09-28 | PPSSPP 1.20.4 | Midnight Club: L.A. Remix, continuous free-roam driving | Vulkan, 4× res, rest default | Baseline (Floppy2100 v1.1.2 stock, `energy_step`) | 59.7 | 46.6 | 100% FPS · clocks X1 75% / A78 74% / GPU 81% | 76 | 67 | n/a | No | ~10 min of gameplay (target was 15), on battery 55%→49%. [Chart](charts/ppsspp-baseline.svg) · [raw](raw/ppsspp-baseline.csv) |
+
+### Baseline notes
+
+**PPSSPP / Midnight Club:** FPS stayed locked at 60 for the whole run, so the PSP at 4× isn't FPS-limited on this phone. The throttling shows up in the **clocks** instead: X1 and A78 were pulled from ~2.4 GHz in the first 3 minutes down to ~1.8 GHz by the end, with the CPU peaking at 76 °C. The Phase 2 goal for this emulator is therefore **the same 60 FPS at lower temperatures and power**, not more FPS.
+
+![PPSSPP baseline](charts/ppsspp-baseline.svg)
 
 ## Before / after summary
 
