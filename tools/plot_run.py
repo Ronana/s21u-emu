@@ -22,7 +22,7 @@ LEFT, RIGHT, TOP = 64, 92, 56
 PLOT_W = W - LEFT - RIGHT
 
 PANELS = [
-    ("Frames per second", "fps", [("fps", "FPS")]),
+    ("Frames per second (game)", "fps", [("game_fps", "FPS")]),
     ("Temperature (°C)", "°C", [("temp_big_c", "X1 (BIG)"), ("temp_mid_c", "A78 (MID)"), ("temp_gpu_c", "GPU")]),
     ("Clock speed (MHz)", "MHz", [("cpu_big_mhz", "X1"), ("cpu_mid_mhz", "A78"), ("gpu_mhz", "GPU")]),
 ]
@@ -58,6 +58,9 @@ def main():
             r for r in csv.DictReader(f)
             if int(r["t_s"]) >= args.skip and (args.until is None or int(r["t_s"]) <= args.until)
         ]
+    if "game_fps" not in rows[0]:  # older logs: whole-screen composition rate
+        for r in rows:
+            r["game_fps"] = r["fps"]
     t0 = int(rows[0]["t_s"])
     ts = [(int(r["t_s"]) - t0) / 60 for r in rows]  # minutes since test start
     t_max = ts[-1]

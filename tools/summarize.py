@@ -33,16 +33,19 @@ def main():
     if not rows:
         raise SystemExit("no samples after --skip")
 
-    fps = [float(r["fps"]) for r in rows]
+    # game_fps = the emulator's own surface (current logger); older logs only have
+    # "fps" (whole-screen compositions), which is valid for PPSSPP but not Dolphin.
+    fps_col = "game_fps" if "game_fps" in rows[0] else "fps"
+    fps = [float(r[fps_col]) for r in rows]
     col = lambda name: [float(r[name]) for r in rows if r[name]]
 
     # Sustained performance: compare the first and last 3 minutes of the run.
     window = 180
     t0, t1 = int(rows[0]["t_s"]), int(rows[-1]["t_s"])
-    first = [float(r["fps"]) for r in rows if int(r["t_s"]) < t0 + window]
-    last = [float(r["fps"]) for r in rows if int(r["t_s"]) > t1 - window]
+    first = [float(r[fps_col]) for r in rows if int(r["t_s"]) < t0 + window]
+    last = [float(r[fps_col]) for r in rows if int(r["t_s"]) > t1 - window]
 
-    print(f"duration        {t1 - t0} s ({len(rows)} samples)")
+    print(f"duration        {t1 - t0} s ({len(rows)} samples, fps source: {fps_col})")
     print(f"avg fps         {statistics.fmean(fps):.1f}")
     print(f"5% low fps      {pct_low(fps, 5):.1f}")
     print(f"1% low fps      {pct_low(fps, 1):.1f}")
